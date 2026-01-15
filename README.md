@@ -1,5 +1,5 @@
-# Noise-And-Conways
-A noise generator and Conways game.
+#Conways
+A Conways game.
 
 
 ## Ideia
