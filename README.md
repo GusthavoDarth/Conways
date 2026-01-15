@@ -82,10 +82,4 @@ Try press T that make apears some test cells that make some patterns when you ho
 
 
 
- 
-## Noise generator: How it works
-
-
-
-
 
