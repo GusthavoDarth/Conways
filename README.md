@@ -1,6 +1,5 @@
 # Conways
-A Conways game.
-
+A Conways game.I developed an interactive cellular automaton simulator with a graphical interface. This project strengthened my skills in state management, grid-based algorithms, and building real-time interactive applications from scratch.
 
 ## Ideia
 This is a project that i already have mede, sort of.
