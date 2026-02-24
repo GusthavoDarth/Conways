@@ -50,7 +50,7 @@ int stateUpdate(int cell, int neighbours) {
     }
 }
 ```
-**2. Computing the Next Generation**
+**3. Computing the Next Generation**
 ```c
 int** step(int** matrixA, int rows, int cols) {
     int** auxMatrix = initMatrix(rows, cols); // Allocate new matrix
