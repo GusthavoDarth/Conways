@@ -1,6 +1,6 @@
 # Conway's Game of Life (Raylib)
 
-![Demonstração do Jogo da Vida](https://github.com/GusthavoDarth/Conways/tree/main/gif)
+![Demonstração do Jogo da Vida](https://github.com/GusthavoDarth/Conways/blob/master/gif/Conway.gif)
 
 ## 📋 Description
 
