@@ -1,84 +1,99 @@
-# Conways
-A Conways game.I developed an interactive cellular automaton simulator with a graphical interface. This project strengthened my skills in state management, grid-based algorithms, and building real-time interactive applications from scratch.
+# Conway's Game of Life (Raylib)
 
-## Ideia
-This is a project that i already have mede, sort of.
-I just wanted to do it with better visuals, so i used the Raylib library to help me with that.
-Making the game i became curious with noise and how it can generate terrain, 
-and there i begin to make a new program very simple to play with it.
+![Demonstração do Jogo da Vida](LINK-DO-SEU-GIF-AQUI)
 
+## 📋 Description
 
+An interactive implementation of **Conway's Game of Life** built in C with the Raylib library. This project simulates cellular automaton where cells evolve based on simple rules, creating complex and often mesmerizing patterns. It strengthens skills in **state management**, **grid-based algorithms**, and **real-time interactive applications**.
 
-## Conway's Game Of Life: How it works
-Basic a matrix with cells that are live or dead and change the states(dead/live) based on how many neighbours they have
-The rule used on the game is:
-If the cell is alive and have 2 or 3 neighbours it continues alive
-if the cell is dead and heve exactly 3 neighbours it becomes alive
-everything else the cell die
+## 🧠 How It Works
 
-### How i made it
-The idea is simple, a matrix, and a function to update
-The matrix part is easy, the funtions not that much
-first i made the neighbours check funtion that recives the matrix, row and collum of the cell we want to check
-than it iterates through and returns the neighbours count.
-```
-int checkNeighbours(int** matrix, int row, int col, int rows, int cols)
-int x[] = {-1,-1,-1,0,0,+1,+1,+1};
-    int y[] = {-1,0,+1,-1,+1,-1,0,+1};
+The simulation runs on a 2D grid where each cell is either **alive** or **dead**. The state of every cell updates simultaneously based on its eight neighbors, following these classic rules:
+
+1.  A live cell with 2 or 3 live neighbors survives.
+2.  A dead cell with exactly 3 live neighbors becomes alive.
+3.  All other cells die or remain dead.
+
+### Core Implementation
+
+The logic is broken down into three key functions:
+
+**1. Counting Neighbors**
+```c
+int checkNeighbours(int** matrix, int row, int col, int rows, int cols) {
+    int x[] = {-1,-1,-1,0,0,1,1,1};
+    int y[] = {-1,0,1,-1,1,-1,0,1};
     int count = 0;
-    for(int i = 0; i < 8; i++){
+    for(int i = 0; i < 8; i++) {
         int newRow = row + x[i];
         int newCol = col + y[i];
-        if(newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols){
-            if (matrix[newRow][newCol] == 1){
+        if(newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+            if (matrix[newRow][newCol] == 1) {
                 count++;
             }
         }
     }
     return count;
-```
-
-Then i need to make an update Function that changes the state of the cell based on the neighbours and rules we stablish for the game
-```
-int stateUpdate(int Cell, int Neighbours){
-    int state;
-    if(Cell == 1 && (Neighbours == 2 || Neighbours == 3)){
-        state = 1;
-    }
-    else if(Cell == 0 && Neighbours == 3){
-        state = 1;
-    }
-    else{
-        state = 0;
-    }
-    return state;
 }
 ```
-And finaly the last funtion to combine all and make it works, it iterate through every martix values and update the cell
-i need to use a copy(auxMatrix) of the matrix to check, because if i change the cell and go to the next of it check will change the value that is supposed to be
+**2. Updating Cell State Based on Rules**
+```c
+int stateUpdate(int cell, int neighbours) {
+    if(cell == 1 && (neighbours == 2 || neighbours == 3)) {
+        return 1; // Cell survives
+    }
+    else if(cell == 0 && neighbours == 3) {
+        return 1; // Cell is born
+    }
+    else {
+        return 0; // Cell dies
+    }
+}
 ```
-int** step(int** matrixA){
-    int neigh;
-    int state;
-    int** auxMatrix = initMatrix(maxRows, maxCols);
-	for(int i = 0; i < maxRows; ++i){
-		for(int j = 0; j < maxCols; ++j){
-                neigh = checkNeighbours(matrixA,i,j,maxRows,maxCols);
-                state = stateUpdate(matrixA[i][j], neigh);
-                auxMatrix[i][j] = state;
+**2. Computing the Next Generation**
+```c
+int** step(int** matrixA, int rows, int cols) {
+    int** auxMatrix = initMatrix(rows, cols); // Allocate new matrix
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            int neigh = checkNeighbours(matrixA, i, j, rows, cols);
+            int state = stateUpdate(matrixA[i][j], neigh);
+            auxMatrix[i][j] = state;
         }
-	}
+    }
     return auxMatrix;
 }
 ```
-### Controls and how to play
-To play you just execute the Conway.exe, it will open a window with squares all white, if you left click it turns the square black and the cell become alive
-nothing realy happens, that because it needs you to hold the right arrow key to works and iterate the rules, if you probably just click in one cell it wil die
-Try press T that make apears some test cells that make some patterns when you hold the right arrow key 
+## 🎮 Controls
 
-[gifs here]
+- **Draw Cells:** `Left Click` on a white square to make it alive (black).
+- **Run Simulation:** Hold `RIGHT ARROW` to iterate through generations.
+- **Load Patterns:** Press `T` to spawn test patterns (oscillators, gliders, etc.) for demonstration.
 
+## ✨ What I Learned & Key Challenges
 
+- **Algorithm Implementation:** Translating Conway's rules into efficient C code deepened my understanding of cellular automata and state machines.
+- **Matrix Management:** Using an auxiliary matrix for simultaneous updates was crucial to avoid race conditions and maintain correct simulation logic.
+- **Real-time Interaction with Raylib:** Integrating mouse and keyboard input for drawing and controlling the simulation taught me about event handling and render loop design.
+- **Performance Considerations:** For larger grids, I explored ways to optimize neighbor counting and avoid unnecessary memory allocations.
 
+## 🚀 How to Run
 
+### Dependencies
+- **Raylib**: Install from [raylib.com](https://www.raylib.com/) or via package manager:
+  - **Windows:** Download pre-compiled library or use vcpkg.
+  - **Linux:** `sudo apt install libraylib-dev` (Debian/Ubuntu)
+  - **macOS:** `brew install raylib`
 
+### Compilation
+This project includes a **Makefile**. After installing Raylib:
+```bash
+git clone https://github.com/GusthavoDarth/Conways.git
+cd Conways
+make
+```
+### Running
+```bash
+./Conway      # Linux/macOS
+Conway.exe    # Windows
+```
